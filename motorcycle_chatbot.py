@@ -13,13 +13,15 @@ from langchain.chat_models import ChatOpenAI
 st.set_page_config(page_title="Triumph 400 Riders Bot", page_icon="🏍️")
 st.title("🏍️ Triumph 400 Riders - Chatbot")
 
+# ------------------------------
+# 🔐 Load secrets securely
+# ------------------------------
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 group_passcode = st.sidebar.text_input("Enter Group Passcode", type="password")
-if group_passcode != "speed400":
+
+if group_passcode != st.secrets["GROUP_PASSCODE"]:
     st.warning("Enter the correct group passcode to continue.")
     st.stop()
-
-# Sidebar: OpenAI API key input
-openai_api_key = "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"
 
 uploaded_file = st.sidebar.file_uploader("Upload Cleaned WhatsApp Chat (.txt)", type="txt")
 
