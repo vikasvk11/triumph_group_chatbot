@@ -35,7 +35,7 @@ if not chat_text:
 
 # Prepare documents
 docs = [Document(page_content=chat_text)]
-splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 chunks = splitter.split_documents(docs)
 
 # Embed and build retriever
