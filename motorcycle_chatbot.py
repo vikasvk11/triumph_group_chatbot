@@ -7,6 +7,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.schema import Document
 
 # Load secrets
 openai_api_key = st.secrets["OPENAI_API_KEY"]
@@ -35,8 +36,25 @@ if not chat_text:
 
 # Prepare documents
 docs = [Document(page_content=chat_text)]
-splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+
+# Split into tighter chunks to stay well below token limits
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,   # smaller chunks
+    chunk_overlap=50  # some overlap for context retention
+)
+
 chunks = splitter.split_documents(docs)
+
+# Optional: Reduce total chunks if needed to stay under token cap
+MAX_TOTAL_CHARS = 200000  # ~250k tokens
+current_chars = 0
+safe_chunks = []
+
+for doc in chunks:
+    if current_chars + len(doc.page_content) > MAX_TOTAL_CHARS:
+        break
+    safe_chunks.append(doc)
+    current_chars += len(doc.page_content)
 
 # Embed and build retriever
 embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
