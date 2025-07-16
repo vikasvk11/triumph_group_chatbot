@@ -20,7 +20,7 @@ if group_passcode != st.secrets["GROUP_PASSCODE"]:
 @st.cache_data
 def load_cleaned_chat():
     file_id = "14zlkLUAeSkCeYxxF3ATSExMqSYf6bDj8"
-    direct_link = f"https://drive.google.com/uc?id={14zlkLUAeSkCeYxxF3ATSExMqSYf6bDj8}"
+    direct_link = f"https://drive.google.com/uc?id={file_id}"
     response = requests.get(direct_link)
     if response.status_code == 200:
         return response.text
