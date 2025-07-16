@@ -19,7 +19,7 @@ if group_passcode != "speed400":
     st.stop()
 
 # Sidebar: OpenAI API key input
-openai_api_key = "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"
+openai_api_key = "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"
 
 uploaded_file = st.sidebar.file_uploader("Upload Cleaned WhatsApp Chat (.txt)", type="txt")
 
