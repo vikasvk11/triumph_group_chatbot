@@ -3,7 +3,7 @@ import openai
 import pandas as pd
 import os
 import tempfile
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import TextLoader
@@ -46,7 +46,7 @@ chunks = splitter.split_documents(documents)
 
 # Create Chroma DB
 embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
-db = Chroma.from_documents(chunks, embedding=embeddings)
+db = FAISS.from_documents(chunks, embedding=embeddings)
 
 # Setup retrieval + GPT
 retriever = db.as_retriever(search_kwargs={"k": 5})
